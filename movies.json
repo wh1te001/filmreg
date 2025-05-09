@@ -1,0 +1,26 @@
+{
+    "movies": [
+        {
+            "title": "Интерстеллар",
+            "year": 2014,
+            "genre": "Фантастика",
+            "director": "Кристофер Нолан",
+            "actors": [
+                "Мэттью Макконахи",
+                "Энн Хэтэуэй"
+            ],
+            "poster_url": "https://upload.wikimedia.org/wikipedia/ru/c/c3/Interstellar_2014.jpg"
+        },
+        {
+            "title": "Драйв",
+            "year": 2011,
+            "genre": "Криминал",
+            "director": "Николас Виндинг Рефн",
+            "actors": [
+                "Райан Гослинг",
+                "Кэри Маллиган"
+            ],
+            "poster_url": ""
+        }
+    ]
+}
