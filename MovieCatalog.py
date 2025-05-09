@@ -1,6 +1,5 @@
 import json
 
-# Константы
 DATA_FILE = "movies.json"
 
 def load_data():
