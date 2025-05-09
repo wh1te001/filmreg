@@ -85,8 +85,8 @@ def show_search_menu():
             print(f"\nНайдено {len(results)} фильма:")
         else:
             print(f"\nНайдено {len(results)} фильмов:")
-            for movie in results:
-                display_movie(movie)
+        for movie in results:
+            display_movie(movie)
 
 def show_all_movies():
     """Показывает все фильмы в коллекции"""
