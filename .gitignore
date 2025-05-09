@@ -1,6 +1,6 @@
 # Игнорировать файлы сборки
 __pycache__/
-movies.json
+
 #IDE
 .vscode/
 .idea/
