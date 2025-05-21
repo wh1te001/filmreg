@@ -6,10 +6,9 @@
             "genre": "Фантастика",
             "director": "Кристофер Нолан",
             "actors": [
-                "Мэттью Макконахи",
-                "Энн Хэтэуэй"
+                "Мэттью Макконахи"
             ],
-            "poster_url": "https://upload.wikimedia.org/wikipedia/ru/c/c3/Interstellar_2014.jpg"
+            "poster_url": "https://example.com/pic.jpg"
         }
     ]
 }
