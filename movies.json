@@ -1,14 +1,15 @@
 {
     "movies": [
         {
-            "title": "Интерстеллар",
-            "year": 2014,
-            "genre": "Фантастика",
-            "director": "Кристофер Нолан",
+            "title": "Фильм4",
+            "year": 2012,
+            "genre": "Драма",
+            "director": "Иванов Иван",
             "actors": [
-                "Мэттью Макконахи"
+                "Мэттью Макконахи",
+                "Энн Хэтэуэй"
             ],
-            "poster_url": "https://example.com/pic.jpg"
+            "poster_url": "https://upload.wikimedia.org/wikipedia/ru/c/c3/Interstellar_2014.jpg"
         }
     ]
 }
