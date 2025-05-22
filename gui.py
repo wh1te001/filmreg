@@ -256,6 +256,7 @@ class MainWindow(QMainWindow):
         self.table.setHorizontalHeaderLabels(["ID", "Название", "Год", "Жанр", "Режиссер"])
         self.table.setSelectionBehavior(QTableWidget.SelectionBehavior.SelectRows)
         self.table.cellClicked.connect(self.show_poster)
+        self.table.verticalHeader().setVisible(False)
 
         table_layout.addWidget(self.table)
 
@@ -367,24 +368,58 @@ class MainWindow(QMainWindow):
         dialog = ExportDialog(self)
         if dialog.exec() == QDialog.DialogCode.Accepted:
             fmt = dialog.get_format()
-            filename, _ = QFileDialog.getSaveFileName(self, "Сохранить как", "", f"{fmt.upper()} (*.{fmt})")
+            filename, _ = QFileDialog.getSaveFileName(
+                self, 
+                "Сохранить как", 
+                "", 
+                f"{fmt.upper()} Files (*.{fmt})"
+            )
             if not filename:
                 return
 
+            # Ensure the file has the correct extension
+            if not filename.lower().endswith(f'.{fmt}'):
+                filename += f'.{fmt}'
+
             data = load_data()["movies"]
             if fmt == "csv":
-                with open(filename, "w", encoding="utf-8") as f:
-                    f.write("Название,Год,Жанр,Режиссер,Актеры\n")
-                    for movie in data:
-                        f.write(f'"{movie["title"]}",{movie["year"]},"{movie["genre"]}","{movie["director"]}","{", ".join(movie["actors"])}"\n')
-                QMessageBox.information(self, "Экспорт", "Фильмы экспортированы в CSV.")
+                # Убедимся, что файл имеет расширение .csv
+                if not filename.lower().endswith('.csv'):
+                    filename += '.csv'
+                
+                try:
+                    with open(filename, "w", encoding="utf-8") as f:
+                        f.write("Название,Год,Жанр,Режиссер,Актеры\n")
+                        for movie in data:
+                            f.write(f'"{movie["title"]}",{movie["year"]},"{movie["genre"]}","{movie["director"]}","{", ".join(movie["actors"])}"\n')
+                    QMessageBox.information(self, "Экспорт", f"Фильмы экспортированы в CSV: {filename}")
+                except Exception as e:
+                    QMessageBox.critical(self, "Ошибка", f"Не удалось экспортировать в CSV: {str(e)}")
             elif fmt == "excel":
-                import pandas as pd
-                df = pd.DataFrame(data)
-                df.to_excel(filename, index=False)
-                QMessageBox.information(self, "Экспорт", "Фильмы экспортированы в Excel.")
-
-
+                try:
+                    import pandas as pd
+                    df = pd.DataFrame(data)
+                    
+                    # Make sure the filename ends with .xlsx
+                    if not filename.lower().endswith('.xlsx'):
+                        if filename.lower().endswith('.excel'):
+                            filename = filename[:-6] + '.xlsx'
+                        else:
+                            filename += '.xlsx'
+                    
+                    # Use openpyxl as engine
+                    df.to_excel(filename, index=False, engine='openpyxl')
+                    QMessageBox.information(self, "Экспорт", f"Фильмы экспортированы в Excel: {filename}")
+                except ImportError as e:
+                    QMessageBox.critical(self, "Ошибка", 
+                        "Для экспорта в Excel требуется установить openpyxl.\n"
+                        "Установите его через pip: pip install openpyxl\n"
+                        f"Ошибка: {str(e)}")
+                except Exception as e:
+                    QMessageBox.critical(self, "Ошибка", 
+                        f"Не удалось экспортировать в Excel: {str(e)}\n"
+                        f"Тип файла: {filename.split('.')[-1]}")
+                    
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MainWindow()
